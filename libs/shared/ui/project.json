@@ -42,6 +42,7 @@
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
       "outputs": ["{options.outputDir}"],
+      "styles": ["apps/tanstack-movies/pages/styles.css"],
       "options": {
         "uiFramework": "@storybook/react",
         "outputDir": "dist/storybook/shared-ui",
