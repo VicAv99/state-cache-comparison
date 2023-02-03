@@ -2,7 +2,9 @@
   "name": "state-cache-comparison",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nx run tanstack-movies:serve --port 4300"
+  },
   "private": true,
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
@@ -14,6 +16,10 @@
     "@nrwl/next": "^15.6.3",
     "@nrwl/react": "15.6.3",
     "@nrwl/workspace": "15.6.3",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.9",
     "@testing-library/react": "13.4.0",
     "@types/jest": "28.1.1",
     "@types/node": "18.11.9",
@@ -21,6 +27,7 @@
     "@types/react-dom": "18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
+    "autoprefixer": "10.4.13",
     "babel-jest": "28.1.1",
     "cypress": "^12.2.0",
     "eslint": "~8.15.0",
@@ -34,9 +41,11 @@
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "nx": "15.6.3",
+    "postcss": "8.4.19",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "sass": "1.55.0",
+    "tailwindcss": "3.2.4",
     "ts-jest": "28.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.8.2"
