@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@state-cache-comparison/shared/client": [
+        "libs/shared/client/src/index.ts"
+      ],
       "@state-cache-comparison/shared/ui": ["libs/shared/ui/src/index.ts"]
     }
   },
