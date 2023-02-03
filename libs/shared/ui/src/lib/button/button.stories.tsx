@@ -12,9 +12,9 @@ const Template: ComponentStory<typeof Button> = (args) => (
   <Button {...args}>Sample Button</Button>
 );
 
-export const Primary = Template.bind({});
+export const Overview = Template.bind({});
 
-Primary.args = {
+Overview.args = {
   variant: 'default',
   size: 'default',
 };
