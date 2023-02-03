@@ -65,9 +65,13 @@
     "url-loader": "^3.0.0"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.0",
+    "@radix-ui/react-aspect-ratio": "^1.0.1",
+    "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-progress": "^1.0.1",
+    "@radix-ui/react-tooltip": "^1.0.3",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "lucide-react": "^0.109.0",
