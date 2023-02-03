@@ -1,7 +1,7 @@
 import { trpc } from '../utils/trpc';
 
 export function Index() {
-  const hello = trpc.hello.useQuery({ text: 'client' });
+  const hello = trpc.example.hello.useQuery({ text: 'client' });
   if (!hello.data) {
     return <div>Loading...</div>;
   }
