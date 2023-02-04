@@ -3,6 +3,7 @@ export * from './lib/aspect-ratio/aspect-ratio';
 export * from './lib/avatar/avatar';
 export * from './lib/button/button';
 export * from './lib/checkbox/checkbox';
+export * from './lib/dialog/dialog';
 export * from './lib/input/input';
 export * from './lib/label/label';
 export * from './lib/progress/progress';
