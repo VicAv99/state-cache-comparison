@@ -1,11 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { MovieForm } from '../components/movies-form';
 import { MoviesList } from '../components/movies-list';
 import { RouterInputs, RouterOutputs, trpc } from '../utils/trpc';
 
 export function Index() {
+  const utils = trpc.useContext();
   const queryClient = useQueryClient();
   const { data: movies } = trpc.movies.all.useQuery();
   const { mutateAsync: createMovie } = trpc.movies.create.useMutation();
@@ -30,7 +31,11 @@ export function Index() {
   const onUpdateMovie = async (movie: RouterInputs['movies']['update']) => {
     setSelectedMovie(null);
     await updateMovie(movie, {
-      onSuccess: invalidateMovies,
+      onSuccess: (data) => {
+        utils.movies.all.setData(undefined, (prevData) => {
+          return prevData.map((prev) => (prev.id === data.id ? data : o));
+        });
+      },
     });
   };
 
