@@ -6,6 +6,19 @@ export const moviesRouter = createTRPCRouter({
   all: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.movie.findMany();
   }),
+  byId: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.movie.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
   create: publicProcedure
     .input(
       z.object({

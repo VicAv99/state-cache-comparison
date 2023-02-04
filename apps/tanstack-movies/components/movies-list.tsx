@@ -5,7 +5,8 @@ import {
   AvatarImage,
   Button,
 } from '@state-cache-comparison/shared/ui';
-import { X } from 'lucide-react';
+import { ArrowRight, X } from 'lucide-react';
+import { useRouter } from 'next/router';
 
 import { RouterOutputs } from '../utils/trpc';
 
@@ -20,6 +21,7 @@ export function MoviesList({
   onDelete,
   onSelectMovie,
 }: MoviesListProps) {
+  const { push } = useRouter();
   return (
     <div className="p-4 bg-white rounded-md">
       {!movies.length && 'No Movies. Create One!'}
@@ -46,7 +48,7 @@ export function MoviesList({
                     {movie.releaseDate.toDateString()}
                   </p>
                 </div>
-                <div className="inline-flex items-center text-base font-semibold text-gray-900">
+                <div className="inline-flex items-center space-x-2 text-base font-semibold text-gray-900">
                   <Button
                     type="button"
                     onClick={(e) => {
@@ -55,6 +57,13 @@ export function MoviesList({
                     }}
                   >
                     <X className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => push(`/movie/${movie.id}`)}
+                  >
+                    <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
