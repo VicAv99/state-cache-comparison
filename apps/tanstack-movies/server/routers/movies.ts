@@ -6,6 +6,28 @@ export const moviesRouter = createTRPCRouter({
   all: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.movie.findMany();
   }),
+  create: publicProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        overview: z.string().min(10),
+        releaseDate: z.date({
+          required_error: 'You must add a Release Date',
+        }),
+        image: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { title, overview, releaseDate, image } = input;
+      return await ctx.prisma.movie.create({
+        data: {
+          title,
+          overview,
+          releaseDate,
+          image,
+        },
+      });
+    }),
   delete: publicProcedure
     .input(
       z.object({
