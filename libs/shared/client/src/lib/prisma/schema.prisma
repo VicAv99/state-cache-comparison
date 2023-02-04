@@ -23,7 +23,7 @@ model Movie {
   id          String   @id @default(cuid())
   title       String
   overview    String
-  releaseDate DateTime
+  releaseDate String
   image       String
   users       User[]
   createdAt   DateTime @default(now())

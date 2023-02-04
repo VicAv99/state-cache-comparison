@@ -22,9 +22,7 @@ export default function Movie() {
         <h3>
           {data.title}
           <br />
-          <span className="text-sm text-gray-500">
-            ({data.releaseDate.toLocaleDateString()})
-          </span>
+          <span className="text-sm text-gray-500">({data.releaseDate})</span>
         </h3>
         <div className="mx-auto h-1/5">
           <AspectRatio
