@@ -1,16 +1,32 @@
 import { Movie } from '@prisma/client';
 import { Button, Input, Label } from '@state-cache-comparison/shared/ui';
-import { useFormContext } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { defaultValues } from '../pages';
+export const defaultValues = {
+  id: '',
+  title: '',
+  overview: '',
+  releaseDate: null,
+  image: '',
+};
 
 interface MovieFormProps {
+  selectedMovie?: Movie | void;
   onUpdate: (movie: Movie) => void;
   onCreate: (movie: Movie) => void;
+  onCancel: () => void;
 }
 
-export function MovieForm({ onCreate, onUpdate }: MovieFormProps) {
-  const { register, handleSubmit, reset } = useFormContext();
+export function MovieForm({
+  selectedMovie,
+  onCreate,
+  onUpdate,
+  onCancel,
+}: MovieFormProps) {
+  const { register, handleSubmit, reset, setValue } = useForm({
+    defaultValues,
+  });
 
   const onSubmit = (data: Movie) => {
     if (!data) return;
@@ -20,9 +36,25 @@ export function MovieForm({ onCreate, onUpdate }: MovieFormProps) {
     reset(defaultValues);
   };
 
+  useEffect(() => {
+    if (!selectedMovie) return;
+    Object.entries(selectedMovie).forEach(
+      ([key, value]: [
+        key: keyof typeof selectedMovie,
+        value: string | Date
+      ]) => {
+        setValue(key as any, value);
+      }
+    );
+  }, [selectedMovie, setValue]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4 bg-white rounded-md">
-      <h3>Create A Movie</h3>
+      <h3>
+        {selectedMovie && selectedMovie.id
+          ? selectedMovie?.title
+          : 'Create A Movie'}
+      </h3>
       <div className="my-3 space-y-2">
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="title">Title</Label>
@@ -65,15 +97,20 @@ export function MovieForm({ onCreate, onUpdate }: MovieFormProps) {
           <p className="text-sm text-slate-500"></p>
         </div>
       </div>
-      <div className="flex justify-end space-x-1">
+      <div className="flex justify-end space-x-3">
         <Button
           type="button"
           variant="outline"
-          onClick={() => reset(defaultValues)}
+          onClick={() => {
+            reset(defaultValues);
+            onCancel();
+          }}
         >
           Cancel
         </Button>
-        <Button type="submit">Create</Button>
+        <Button type="submit">
+          {selectedMovie && selectedMovie.id ? 'Update' : 'Create A Movie'}
+        </Button>
       </div>
     </form>
   );

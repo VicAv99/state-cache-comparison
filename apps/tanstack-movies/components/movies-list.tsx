@@ -1,3 +1,4 @@
+import { Movie } from '@prisma/client';
 import {
   Avatar,
   AvatarFallback,
@@ -5,34 +6,20 @@ import {
   Button,
 } from '@state-cache-comparison/shared/ui';
 import { X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import { RouterOutputs } from '../utils/trpc';
 
 interface MoviesListProps {
   movies: RouterOutputs['movies']['all'];
   onDelete: (movieId: string) => void;
+  onSelectMovie: (movie: Movie) => void;
 }
 
-export function MoviesList({ movies, onDelete }: MoviesListProps) {
-  const { setValue } = useFormContext();
-  const [selectedMovie, setSelectedMovie] = useState<
-    RouterOutputs['movies']['all'][number] | null
-  >();
-
-  useEffect(() => {
-    if (!selectedMovie) return;
-    Object.entries(selectedMovie).forEach(
-      ([key, value]: [
-        key: keyof typeof selectedMovie,
-        value: string | Date
-      ]) => {
-        setValue(key, value);
-      }
-    );
-  }, [selectedMovie, setValue]);
-
+export function MoviesList({
+  movies,
+  onDelete,
+  onSelectMovie,
+}: MoviesListProps) {
   return (
     <div className="p-4 bg-white rounded-md">
       {!movies.length && 'No Movies. Create One!'}
@@ -41,7 +28,7 @@ export function MoviesList({ movies, onDelete }: MoviesListProps) {
           <li
             key={movie.id}
             className="p-3"
-            onClick={() => setSelectedMovie(movie)}
+            onClick={() => onSelectMovie(movie)}
           >
             <div className="rounded-md">
               <div className="flex items-center space-x-4">

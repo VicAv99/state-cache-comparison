@@ -1,25 +1,19 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 import { MovieForm } from '../components/movies-form';
 import { MoviesList } from '../components/movies-list';
-import { RouterInputs, trpc } from '../utils/trpc';
-
-export const defaultValues = {
-  title: '',
-  overview: '',
-  releaseDate: null,
-  image: '',
-};
+import { RouterInputs, RouterOutputs, trpc } from '../utils/trpc';
 
 export function Index() {
   const queryClient = useQueryClient();
-  const methods = useForm({ defaultValues });
   const { data: movies } = trpc.movies.all.useQuery();
   const { mutateAsync: createMovie } = trpc.movies.create.useMutation();
   const { mutateAsync: updateMovie } = trpc.movies.update.useMutation();
   const { mutateAsync: deleteMovie } = trpc.movies.delete.useMutation();
+  const [selectedMovie, setSelectedMovie] = useState<
+    RouterOutputs['movies']['all'][number] | void
+  >();
 
   const invalidateMovies = () =>
     queryClient.invalidateQueries({
@@ -27,18 +21,21 @@ export function Index() {
     });
 
   const onCreateMovie = async (movie: RouterInputs['movies']['create']) => {
+    setSelectedMovie(null);
     await createMovie(movie, {
       onSuccess: invalidateMovies,
     });
   };
 
   const onUpdateMovie = async (movie: RouterInputs['movies']['update']) => {
+    setSelectedMovie(null);
     await updateMovie(movie, {
       onSuccess: invalidateMovies,
     });
   };
 
   const onDeleteMovie = async (movieId: string) => {
+    setSelectedMovie(null);
     await deleteMovie(
       { movieId },
       {
@@ -52,12 +49,21 @@ export function Index() {
   }
 
   return (
-    <FormProvider {...methods}>
+    <>
       <div className="grid grid-cols-2 gap-3">
-        <MoviesList movies={movies} onDelete={onDeleteMovie} />
-        <MovieForm onCreate={onCreateMovie} onUpdate={onUpdateMovie} />
+        <MoviesList
+          movies={movies}
+          onDelete={onDeleteMovie}
+          onSelectMovie={setSelectedMovie}
+        />
+        <MovieForm
+          selectedMovie={selectedMovie}
+          onCreate={onCreateMovie}
+          onUpdate={onUpdateMovie}
+          onCancel={setSelectedMovie}
+        />
       </div>
-    </FormProvider>
+    </>
   );
 }
 
