@@ -52,7 +52,10 @@ function ListItem({
   const { push } = useRouter();
 
   const handleSelect = () => onSelectMovie(movie);
-  const handleNavigate = () => push(`/movie/${movie.id}`);
+  const handleNavigate = (e) => {
+    e.stopPropagation();
+    push(`/movie/${movie.id}`);
+  };
 
   return (
     <li key={movie.id} className="p-3" onClick={handleSelect}>
@@ -69,7 +72,7 @@ function ListItem({
               {movie.title}
             </p>
             <p className="text-sm text-gray-500 truncate">
-              {movie.releaseDate.toDateString()}
+              {movie.releaseDate}
             </p>
           </div>
           <div className="inline-flex items-center space-x-2 text-base font-semibold text-gray-900">
@@ -95,11 +98,9 @@ function DeleteDialog({
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button type="button">
-          <X className="w-4 h-4" />
-        </Button>
-      </DialogTrigger>
+      <Button as={DialogTrigger}>
+        <X className="w-4 h-4" />
+      </Button>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Are You Sure?</DialogTitle>
@@ -108,16 +109,12 @@ function DeleteDialog({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose>
-            <Button type="button" variant="outline">
-              Cancel
-            </Button>
-          </DialogClose>
-          <DialogClose>
-            <Button type="button" onClick={handleDelete}>
-              Delete
-            </Button>
-          </DialogClose>
+          <Button as={DialogClose} variant="outline">
+            Cancel
+          </Button>
+          <Button as={DialogClose} onClick={handleDelete}>
+            Delete
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

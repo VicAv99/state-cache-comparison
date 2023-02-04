@@ -1,9 +1,10 @@
+import { Movie } from '@prisma/client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { MovieForm } from '../components/movies-form';
 import { MoviesList } from '../components/movies-list';
-import { RouterInputs, RouterOutputs, trpc } from '../utils/trpc';
+import { trpc } from '../utils/trpc';
 
 export function Index() {
   const utils = trpc.useContext();
@@ -12,23 +13,21 @@ export function Index() {
   const { mutateAsync: createMovie } = trpc.movies.create.useMutation();
   const { mutateAsync: updateMovie } = trpc.movies.update.useMutation();
   const { mutateAsync: deleteMovie } = trpc.movies.delete.useMutation();
-  const [selectedMovie, setSelectedMovie] = useState<
-    RouterOutputs['movies']['all'][number] | void
-  >();
+  const [selectedMovie, setSelectedMovie] = useState<Movie | void>();
 
   const invalidateMovies = () =>
     queryClient.invalidateQueries({
       queryKey: [['movies']],
     });
 
-  const onCreateMovie = async (movie: RouterInputs['movies']['create']) => {
+  const onCreateMovie = async (movie: Movie) => {
     setSelectedMovie(null);
     await createMovie(movie, {
       onSuccess: invalidateMovies,
     });
   };
 
-  const onUpdateMovie = async (movie: RouterInputs['movies']['update']) => {
+  const onUpdateMovie = async (movie: Movie) => {
     setSelectedMovie(null);
     await updateMovie(movie, {
       onSuccess: (data) => {
@@ -39,10 +38,10 @@ export function Index() {
     });
   };
 
-  const onDeleteMovie = async (movieId: string) => {
+  const onDeleteMovie = async (id: string) => {
     setSelectedMovie(null);
     await deleteMovie(
-      { movieId },
+      { id },
       {
         onSuccess: invalidateMovies,
       }
