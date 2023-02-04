@@ -28,6 +28,32 @@ export const moviesRouter = createTRPCRouter({
         },
       });
     }),
+  update: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        overview: z.string().min(10),
+        releaseDate: z.date({
+          required_error: 'You must add a Release Date',
+        }),
+        image: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, title, overview, releaseDate, image } = input;
+      return await ctx.prisma.movie.update({
+        where: {
+          id,
+        },
+        data: {
+          title,
+          overview,
+          releaseDate,
+          image,
+        },
+      });
+    }),
   delete: publicProcedure
     .input(
       z.object({
