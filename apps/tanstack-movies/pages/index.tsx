@@ -33,7 +33,7 @@ export function Index() {
     await updateMovie(movie, {
       onSuccess: (data) => {
         utils.movies.all.setData(undefined, (prevData) => {
-          return prevData.map((prev) => (prev.id === data.id ? data : o));
+          return prevData.map((prev) => (prev.id === data.id ? data : prev));
         });
       },
     });
