@@ -1,5 +1,5 @@
+import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { VariantProps, cva } from 'class-variance-authority';
 
 import { cn } from '../cn';
 
@@ -33,22 +33,38 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+const defaultElement = 'button';
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+type PropsOf<
+  E extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
+> = JSX.LibraryManagedAttributes<E, React.ComponentPropsWithRef<E>>;
+
+export interface ActualButtonProps<
+  E extends React.ElementType = React.ElementType
+> extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  as?: E;
+}
+
+export type ButtonProps<E extends React.ElementType> = ActualButtonProps<E> &
+  Omit<PropsOf<E>, keyof ActualButtonProps>;
+
+const Button = React.forwardRef(
+  <Element extends React.ElementType = typeof defaultElement>(
+    { as: Component, className, variant, size, ...rest }: ActualButtonProps,
+    ref: React.Ref<Element>
+  ) => {
+    const Tag = Component ?? defaultElement;
     return (
-      <button
+      <Tag
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        {...props}
+        {...rest}
       />
     );
   }
-);
-
-Button.displayName = 'Button';
+) as <E extends React.ElementType = typeof defaultElement>(
+  props: ButtonProps<E>
+) => JSX.Element;
 
 export { Button, buttonVariants };
