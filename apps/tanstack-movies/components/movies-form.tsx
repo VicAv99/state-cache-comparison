@@ -1,7 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Movie } from '@prisma/client';
 import { Button, Input, Label } from '@state-cache-comparison/shared/ui';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { movieSchema } from '../utils/schemas';
+
+type ValidationSchema = z.infer<typeof movieSchema>;
 
 export const defaultValues = {
   id: '',
@@ -24,15 +30,22 @@ export function MovieForm({
   onUpdate,
   onCancel,
 }: MovieFormProps) {
-  const { register, handleSubmit, reset, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<ValidationSchema>({
     defaultValues,
+    reValidateMode: 'onChange',
+    resolver: zodResolver(movieSchema),
   });
 
-  const onSubmit = (data: Movie) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data: Movie) => {
     if (!data) return;
-    data.id
-      ? onUpdate({ ...data, releaseDate: new Date(data.releaseDate) })
-      : onCreate({ ...data, releaseDate: new Date(data.releaseDate) });
+    data.id ? onUpdate(data) : onCreate(data);
     reset(defaultValues);
   };
 
@@ -58,13 +71,19 @@ export function MovieForm({
       <div className="my-3 space-y-2">
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="title">Title</Label>
-          <Input
-            {...register('title')}
-            type="text"
-            id="title"
-            placeholder="Title"
+          <Controller
+            name={'title'}
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <Input {...field} type="text" id="title" placeholder="Title" />
+            )}
           />
-          <p className="text-sm text-slate-500"></p>
+          {errors.title && (
+            <p className="text-xs italic text-red-500">
+              {errors.title?.message}
+            </p>
+          )}
         </div>
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="overview">Overview</Label>
@@ -74,7 +93,11 @@ export function MovieForm({
             id="overview"
             placeholder="Overview"
           />
-          <p className="text-sm text-slate-500"></p>
+          {errors.overview && (
+            <p className="text-xs italic text-red-500">
+              {errors.overview?.message}
+            </p>
+          )}
         </div>
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="release-date">Release Date</Label>
@@ -84,7 +107,11 @@ export function MovieForm({
             id="release-date"
             placeholder="Release Date"
           />
-          <p className="text-sm text-slate-500"></p>
+          {errors.releaseDate && (
+            <p className="text-xs italic text-red-500">
+              {errors.releaseDate?.message}
+            </p>
+          )}
         </div>
         <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="image">Image</Label>
@@ -94,7 +121,11 @@ export function MovieForm({
             id="image"
             placeholder="Image"
           />
-          <p className="text-sm text-slate-500"></p>
+          {errors.image && (
+            <p className="text-xs italic text-red-500">
+              {errors.image?.message}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex justify-end space-x-3">
