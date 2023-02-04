@@ -12,8 +12,8 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  email     String?  @unique
+  name      String
   favorites Movie[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -23,7 +23,8 @@ model Movie {
   id          String   @id @default(cuid())
   title       String
   overview    String
-  releaseData DateTime
+  releaseDate DateTime
+  image       String
   users       User[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

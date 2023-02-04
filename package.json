@@ -65,6 +65,7 @@
     "url-loader": "^3.0.0"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-accordion": "^1.1.0",
     "@radix-ui/react-aspect-ratio": "^1.0.1",
@@ -91,6 +92,7 @@
     "zod": "^3.20.2"
   },
   "prisma": {
-    "schema": "libs/shared/client/src/lib/prisma/schema.prisma"
+    "schema": "libs/shared/client/src/lib/prisma/schema.prisma",
+    "seed": "ts-node libs/shared/client/src/lib/prisma/seed.ts"
   }
 }
