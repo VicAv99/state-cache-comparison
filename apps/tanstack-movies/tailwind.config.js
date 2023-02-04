@@ -3,7 +3,7 @@ const { join } = require('path');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  presets: ['../../tailwind-workspace-preset.js'],
+  presets: [require(join(__dirname, '../../tailwind-workspace-preset.js'))],
   content: [
     join(
       __dirname,
@@ -11,7 +11,4 @@ module.exports = {
     ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
-  theme: {
-    extend: {},
-  },
 };

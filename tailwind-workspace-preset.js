@@ -2,13 +2,17 @@
 
 module.exports = {
   theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '5rem',
+        '2xl': '6rem',
       },
+    },
+    extend: {
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
