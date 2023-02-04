@@ -75,6 +75,7 @@
     "@radix-ui/react-progress": "^1.0.1",
     "@radix-ui/react-tooltip": "^1.0.3",
     "@tanstack/react-query": "^4.24.4",
+    "@tanstack/react-query-devtools": "^4.24.4",
     "@trpc/client": "^10.9.1",
     "@trpc/next": "^10.9.1",
     "@trpc/react-query": "^10.9.1",
