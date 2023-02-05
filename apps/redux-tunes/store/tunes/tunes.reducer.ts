@@ -1,7 +1,12 @@
 import { Tune } from '@prisma/client';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
-import { fetchAllTunes } from './tunes.action';
+import {
+  createTune,
+  deleteTune,
+  fetchAllTunes,
+  updateTune,
+} from './tunes.action';
 
 interface TuneState {
   error?: string | null;
@@ -20,7 +25,12 @@ const initialState = tunesAdapter.getInitialState<TuneState>({
 export const tunesSlice = createSlice({
   name: 'tunes',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedTune: (state, action) => ({
+      ...state,
+      selectedId: action.payload,
+    }),
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchAllTunes.pending, (state) => ({
@@ -31,6 +41,42 @@ export const tunesSlice = createSlice({
         return tunesAdapter.setAll({ ...state, loading: false }, payload);
       })
       .addCase(fetchAllTunes.rejected, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error: error.message ?? '',
+      }))
+      .addCase(deleteTune.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(deleteTune.fulfilled, (state, { payload }) => {
+        return tunesAdapter.removeOne({ ...state, loading: false }, payload.id);
+      })
+      .addCase(deleteTune.rejected, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error: error.message ?? '',
+      }))
+      .addCase(updateTune.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(updateTune.fulfilled, (state, { payload }) => {
+        return tunesAdapter.upsertOne({ ...state, loading: false }, payload);
+      })
+      .addCase(updateTune.rejected, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error: error.message ?? '',
+      }))
+      .addCase(createTune.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(createTune.fulfilled, (state, { payload }) => {
+        return tunesAdapter.addOne({ ...state, loading: false }, payload);
+      })
+      .addCase(createTune.rejected, (state, { error }) => ({
         ...state,
         loading: false,
         error: error.message ?? '',

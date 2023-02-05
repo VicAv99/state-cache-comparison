@@ -4,7 +4,12 @@ import { useEffect, useState } from 'react';
 import { TuneForm } from '../components/tunes-form';
 import { TunesList } from '../components/tunes-list';
 import { useAppDispatch, useAppSelector } from '../store';
-import { fetchAllTunes } from '../store/tunes/tunes.action';
+import {
+  createTune,
+  deleteTune,
+  fetchAllTunes,
+  updateTune,
+} from '../store/tunes/tunes.action';
 import { selectAllTunes } from '../store/tunes/tunes.selectors';
 
 export function Index() {
@@ -13,14 +18,18 @@ export function Index() {
   const [selectedTune, setSelectedTune] = useState<Tune | void>();
 
   const onCreateTune = async (tune: Tune) => {
+    const { id, ...newTune } = tune;
+    dispatch(createTune(newTune));
     setSelectedTune(null);
   };
 
   const onUpdateTune = async (tune: Tune) => {
+    dispatch(updateTune(tune));
     setSelectedTune(null);
   };
 
   const onDeleteTune = async (id: string) => {
+    dispatch(deleteTune(id));
     setSelectedTune(null);
   };
 
