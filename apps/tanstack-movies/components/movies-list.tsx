@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@state-cache-comparison/shared/ui';
+} from '@state-cache-comparison/ui';
 import { ArrowRight, X } from 'lucide-react';
 import { useRouter } from 'next/router';
 

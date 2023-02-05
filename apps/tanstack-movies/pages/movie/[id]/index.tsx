@@ -1,4 +1,4 @@
-import { AspectRatio, Button } from '@state-cache-comparison/shared/ui';
+import { AspectRatio, Button } from '@state-cache-comparison/ui';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';

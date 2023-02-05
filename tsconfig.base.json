@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@state-cache-comparison/client": ["libs/client/src/index.ts"],
-      "@state-cache-comparison/shared/ui": ["libs/shared/ui/src/index.ts"]
+      "@state-cache-comparison/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

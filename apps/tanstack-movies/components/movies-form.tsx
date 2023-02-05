@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Movie } from '@prisma/client';
-import { Button, Input, Label } from '@state-cache-comparison/shared/ui';
+import { Button, Input, Label } from '@state-cache-comparison/ui';
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
