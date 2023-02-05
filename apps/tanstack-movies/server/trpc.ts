@@ -1,4 +1,4 @@
-import { prisma } from '@state-cache-comparison/shared/client';
+import { prisma } from '@state-cache-comparison/client';
 import { initTRPC } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 import superjson from 'superjson';

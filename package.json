@@ -98,7 +98,7 @@
     "zod": "^3.20.2"
   },
   "prisma": {
-    "schema": "libs/shared/client/src/lib/prisma/schema.prisma",
-    "seed": "ts-node libs/shared/client/src/lib/prisma/seed.ts"
+    "schema": "libs/client/src/lib/prisma/schema.prisma",
+    "seed": "ts-node libs/client/src/lib/prisma/seed.ts"
   }
 }
