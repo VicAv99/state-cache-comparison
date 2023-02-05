@@ -3,7 +3,15 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run tanstack-movies:serve --port 4300"
+    "prisma:gen": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "prisma db seed",
+    "prisma:studio": "prisma studio",
+    "start:apollo": "nx run apollo-planets:serve --port=4600",
+    "start:mobx": "nx run mobx-users:serve --port=4500",
+    "start:movies": "nx run tanstack-movies:serve --port=4200",
+    "start:recoil": "nx run recoil-teams:serve --port=4400",
+    "start:redux": "nx run redux-tunes:serve --port=4300"
   },
   "private": true,
   "devDependencies": {
