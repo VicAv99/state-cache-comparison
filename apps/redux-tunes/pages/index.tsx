@@ -1,10 +1,15 @@
 import { Tune } from '@prisma/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { TuneForm } from '../components/tunes-form';
 import { TunesList } from '../components/tunes-list';
+import { useAppDispatch, useAppSelector } from '../store';
+import { fetchAllTunes } from '../store/tunes/tunes.action';
+import { selectAllTunes } from '../store/tunes/tunes.selectors';
 
 export function Index() {
+  const dispatch = useAppDispatch();
+  const tunes = useAppSelector(selectAllTunes);
   const [selectedTune, setSelectedTune] = useState<Tune | void>();
 
   const onCreateTune = async (tune: Tune) => {
@@ -19,10 +24,14 @@ export function Index() {
     setSelectedTune(null);
   };
 
+  useEffect(() => {
+    dispatch(fetchAllTunes());
+  }, []);
+
   return (
     <div className="grid grid-cols-2 gap-3">
       <TunesList
-        tunes={[]}
+        tunes={tunes}
         onDelete={onDeleteTune}
         onSelectTune={setSelectedTune}
       />

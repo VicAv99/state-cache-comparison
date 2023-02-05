@@ -1,6 +1,8 @@
 import { Tune } from '@prisma/client';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
+import { fetchAllTunes } from './tunes.action';
+
 interface TuneState {
   error?: string | null;
   loading: boolean;
@@ -8,7 +10,7 @@ interface TuneState {
 }
 
 const tunesAdapter = createEntityAdapter<Tune>({
-  selectId: (track) => track.id,
+  selectId: (tune) => tune.id,
 });
 
 const initialState = tunesAdapter.getInitialState<TuneState>({
@@ -19,6 +21,21 @@ export const tunesSlice = createSlice({
   name: 'tunes',
   initialState,
   reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchAllTunes.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(fetchAllTunes.fulfilled, (state, { payload }) => {
+        return tunesAdapter.setAll({ ...state, loading: false }, payload);
+      })
+      .addCase(fetchAllTunes.rejected, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error: error.message ?? '',
+      }));
+  },
 });
 
 export const {

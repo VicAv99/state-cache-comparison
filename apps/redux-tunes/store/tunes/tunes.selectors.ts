@@ -1,4 +1,8 @@
-import { AppState } from '..';
+import { createSelector } from '@reduxjs/toolkit';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const selectTracksFeature = (state: AppState) => state.tracks;
+import { AppState } from '..';
+import { selectTunes } from './tunes.reducer';
+
+const selectTunesFeature = (state: AppState) => state.tunes;
+
+export const selectAllTunes = createSelector(selectTunesFeature, selectTunes);
