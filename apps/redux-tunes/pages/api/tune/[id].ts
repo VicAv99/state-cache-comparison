@@ -1,5 +1,7 @@
 import { prisma } from '@state-cache-comparison/client';
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import { withMethods } from '../../../utils/api';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'PATCH') {
@@ -21,13 +23,3 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default withMethods(['DELETE', 'PATCH'], handler);
-
-export function withMethods(methods: string[], handler: NextApiHandler) {
-  return async function (req: NextApiRequest, res: NextApiResponse) {
-    if (!methods.includes(req.method)) {
-      return res.status(405).end();
-    }
-
-    return handler(req, res);
-  };
-}
