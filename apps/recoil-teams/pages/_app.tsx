@@ -1,6 +1,8 @@
+import './styles.css';
+
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
+import { RecoilRoot } from 'recoil';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -9,7 +11,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Welcome to recoil-teams!</title>
       </Head>
       <main className="app">
-        <Component {...pageProps} />
+        <RecoilRoot>
+          <Component {...pageProps} />
+        </RecoilRoot>
       </main>
     </>
   );
