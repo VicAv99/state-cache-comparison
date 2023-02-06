@@ -4,7 +4,7 @@ export const idSchema = z.object({
   id: z.string(),
 });
 
-export const tuneSchema = z.object({
+export const teamSchema = z.object({
   id: z.string(),
   name: z
     .string({
