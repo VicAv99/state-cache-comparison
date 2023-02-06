@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { PrismaClient } from '@prisma/client';
 
 import { movies } from '../seed/movies';
+import { teams } from '../seed/teams';
 import { tunes } from '../seed/tunes';
 
 const prisma = new PrismaClient();
@@ -15,12 +16,16 @@ async function main() {
   await prisma.user.deleteMany();
   await prisma.movie.deleteMany();
   await prisma.tune.deleteMany();
+  await prisma.team.deleteMany();
 
   for (const data of movies) {
     await prisma.movie.create({ data });
   }
   for (const data of tunes) {
     await prisma.tune.create({ data });
+  }
+  for (const data of teams) {
+    await prisma.team.create({ data });
   }
   for (const data of users) {
     await prisma.user.create({ data });
