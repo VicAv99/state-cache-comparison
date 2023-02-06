@@ -45,6 +45,7 @@ model Team {
   name      String
   state     String
   slogan    String
+  image     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
